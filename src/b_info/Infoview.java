@@ -1,7 +1,6 @@
 package b_info;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class Infoview {
 	
