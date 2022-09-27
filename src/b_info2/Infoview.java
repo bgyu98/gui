@@ -1,8 +1,5 @@
-package b_info;
+package b_info2;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 public class Infoview {
@@ -29,22 +26,7 @@ public class Infoview {
 		bSearch = new JButton("Search");
 		bDelete = new JButton("Delete");
 		bCancle = new JButton("Cancle");
-		bExit = new JButton("Exit (alt+x)" ,new ImageIcon("src\\b_info\\imgs\\2.png"));
-			bExit.setRolloverIcon(new ImageIcon("src\\b_info\\imgs\\3.png"));
-			bExit.setPressedIcon(new ImageIcon("src\\b_info\\imgs\\3.png"));
-			bExit.setHorizontalTextPosition(JButton.RIGHT);
-			bExit.setVerticalTextPosition(JButton.BOTTOM);
-			bExit.setToolTipText("프로그램을 종료합니다.");
-			bExit.setMnemonic('x');
-			bExit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// exit버튼을 누르면 종료
-				System.exit(0);
-				
-			}
-		});
+		bExit = new JButton("Exit");
 		label = new JLabel();
 		
 	}
