@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,12 +16,13 @@ public class JapaneseFoods extends JPanel{
 	
 	MainKiosk parent;
 	JButton bsushi, bramen, bshrimp, bsake;
-	JLabel bsushii;
+	
+	int menuPrice[] = {9000,8000,6000,5000};
 	
 	public JapaneseFoods(MainKiosk kiosk) {
 		parent = kiosk;
 		
-		bsushi = new JButton("<html>&nbsp; 초밥<br>6000원</html>");
+		bsushi = new JButton("<html>&nbsp; 초밥<br>9000원</html>");
 		bramen = new JButton("라멘");
 		bshrimp = new JButton("새우튀김");
 		bsake = new JButton("사케");
@@ -27,7 +30,7 @@ public class JapaneseFoods extends JPanel{
 		setBackground(new Color(255,255,255));
 		addLayout();
 		
-	}//end jpfoods
+	}//end jpFoods
 	
 	void addLayout() {
 		
@@ -65,5 +68,14 @@ public class JapaneseFoods extends JPanel{
 		add(pEast);
 		
 	}//end addLayout()
+	
+	void eventProc() {	//이벤트 메서드(버튼 클릭하면 ~~)
+		bsushi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.ta.setText("gd");
+			}//end performed
+		});//end listener
+		
+	}//end eventProc()
 	
 }

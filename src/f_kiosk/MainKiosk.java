@@ -6,23 +6,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class MainKiosk {
 	
-	JFrame f;
-	JButton btn;
-	JLabel la;
-	JTextField tf;
+	JFrame f = new JFrame("KIOSK");;
+	JLabel la = new JLabel("메뉴를 선택하세요.");
+	JTextArea ta = new JTextArea("왜안돼");
 	
 	JapaneseFoods jpFoods;
 	
 	MainKiosk(){
 	
-		f = new JFrame("KIOSK");
-		btn = new JButton("MENU");
 		la = new JLabel("메뉴를 선택하세요.");
-		tf = new JTextField();
 		
 		jpFoods = new JapaneseFoods(this);
 		
@@ -37,9 +34,8 @@ public class MainKiosk {
 		tab.addTab("일식", jpFoods);
 		
 		//add
-		f.add(btn, BorderLayout.EAST);
 		f.add(la, BorderLayout.NORTH);
-		f.add(tf, BorderLayout.CENTER);
+		f.add(ta, BorderLayout.CENTER);
 		f.add(tab, BorderLayout.AFTER_LINE_ENDS);
 		
 		
@@ -50,8 +46,13 @@ public class MainKiosk {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	void eventProc() {
+		
+	}
+	
 	public static void main(String[] args) {
 		MainKiosk kiosk = new MainKiosk();
 		kiosk.addLayout();
+		kiosk.eventProc();
 	}
 }
