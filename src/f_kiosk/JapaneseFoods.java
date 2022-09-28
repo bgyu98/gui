@@ -11,18 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class JapaneseFoods extends JPanel{
-
-//	JLabel japanFoodsLabel = new JLabel("일식");
-//	JButton japanFoodsButton = new JButton("메뉴?");
 	
 	MainKiosk parent;
 	JButton bsushi, bramen, bshrimp, bsake;
-	
+	JLabel bsushii;
 	
 	public JapaneseFoods(MainKiosk kiosk) {
 		parent = kiosk;
 		
-		bsushi = new JButton("초밥");
+		bsushi = new JButton("<html>&nbsp; 초밥<br>6000원</html>");
 		bramen = new JButton("라멘");
 		bshrimp = new JButton("새우튀김");
 		bsake = new JButton("사케");
@@ -59,7 +56,7 @@ public class JapaneseFoods extends JPanel{
 		bsake.setPreferredSize(new Dimension(300, 300));
 		
 		
-		JPanel pEast = new JPanel(new GridLayout(2,2));		//메뉴 판넬
+		JPanel pEast = new JPanel(new GridLayout(2,2, 10, 10));		//메뉴 판넬
 			pEast.add(bsushi);
 			pEast.add(bramen);
 			pEast.add(bshrimp);
@@ -67,8 +64,6 @@ public class JapaneseFoods extends JPanel{
 			
 		add(pEast);
 		
-//		add(japanFoodsLabel);
-//		add(japanFoodsButton);
 	}//end addLayout()
 	
 }
