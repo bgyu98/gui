@@ -1,14 +1,14 @@
-package b_info;
+package b_info3;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.nio.channels.Selector;
-import java.util.*;
-import java.util.logging.ErrorManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.Calendar;
 
 import javax.swing.*;
-import javax.xml.transform.ErrorListener;
-
+import javax.swing.border.Border;
 
 public class Inforeview {
 
@@ -17,8 +17,6 @@ public class Inforeview {
 	JTextField tfName, tfId, tfTel, tfGender, tfAge, tfHome; // 왼쪽에 올 텍스트 필드 변수 선언
 	JTextArea ta; // 텍스트 입력 칸 변수 선언
 	JButton bAdd, bShow, bSearch, bDelete, bCancle, bExit; // 아랫쪽에 올 버튼 변수 선언
-
-	ArrayList<PersonVO> list = new ArrayList<PersonVO>();
 
 	// 2. 멤버변수 객체 생성
 	Inforeview() {
@@ -35,21 +33,7 @@ public class Inforeview {
 		bDelete = new JButton("Delete"); // delete 버튼 객체 생성
 		bCancle = new JButton("Cancle"); // cancle 버튼 객체 생성
 		bExit = new JButton("Exit"); // exit 버튼 객체 생성
-		ta = new JTextArea(); //text area 객체 생성
-		bExit = new JButton("Exit (alt+x)" ,new ImageIcon("src\\b_info\\imgs\\2.png"));	//exit버튼에 단축키 설정, 아이콘 설정
-		bExit.setRolloverIcon(new ImageIcon("src\\b_info\\imgs\\3.png")); // 버튼에 마우스를 올려놓으면 다른 이미지 띄우기
-		bExit.setPressedIcon(new ImageIcon("src\\b_info\\imgs\\3.png")); // 버튼을 누르면 이미지 바뀜
-		bExit.setHorizontalTextPosition(JButton.RIGHT);
-		bExit.setVerticalTextPosition(JButton.BOTTOM);
-		bExit.setToolTipText("프로그램을 종료합니다.");	//마우스를 버튼위에 올려놓으면 툴팁 제공
-		bExit.setMnemonic('x');	//alt x 누르면 종료
-		bExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// exit버튼을 누르면 종료
-				System.exit(0);
-			}
-		});
-	}	
+	}
 
 	/*
 	 * 3.화면 구성하고 출력
@@ -81,7 +65,7 @@ public class Inforeview {
 		pWest.setPreferredSize(new Dimension(250, 25)); // West 판넬 사이즈 지정
 
 		// 가운데 텍스트 에어리어
-		f.add(ta, BorderLayout.CENTER); // 가운데 텍스트 에어리어를 생성후 Center Border에 붙임
+		f.add(new TextArea(), BorderLayout.CENTER); // 가운데 텍스트 에어리어를 생성후 Center Border에 붙임
 
 		// 남쪽 판넬 생성
 		JPanel pSouth = new JPanel(new GridLayout(1, 6)); // pSouth 판넬 제작후 1행6열 레이아웃 지정
@@ -104,30 +88,34 @@ public class Inforeview {
 
 	public void eventProc() { // 이벤트 창 띄우는 메서드 묶음
 		bAdd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputData();
-				clearTextField();
-				selectAll();
+				JOptionPane.showMessageDialog(null, "ADD버튼 클릭");
 			}
 		});
 		bShow.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				selectAll();
+
+				JOptionPane.showMessageDialog(null, "SHOW버튼 클릭");
 			}
 		});
 		bSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				selectByTel();
+				JOptionPane.showMessageDialog(null, "Search버튼 클릭");
 			}
 		});
 		bDelete.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				deleteByTel();
+				JOptionPane.showMessageDialog(null, "Delete버튼 클릭");
 			}
 		});
 		bCancle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clearTextField();
+				JOptionPane.showMessageDialog(null, "CANCLE버튼 클릭");
+//				clearTextField();
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
@@ -135,23 +123,7 @@ public class Inforeview {
 				System.exit(0); // exit버튼을 누르면 종료
 			}
 		});
-
-		//전화번호 텍스트필드에서 포커스 이벤트가 발생했을때
-		tfTel.addFocusListener(new FocusListener() {
-			public void focusLost(FocusEvent e) {
-				selectByTel();
-			}
-			public void focusGained(FocusEvent e) {
-			}
-		});
-
-		//전화번호 텍스트필드에서 엔터쳤을때
-		tfTel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectByTel();
-			}
-		});
-
+		
 		//주민번호 입력창에서 포커스 이벤트가 발생했을때
 		tfId.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {		//focus를 잃었을때
@@ -161,123 +133,29 @@ public class Inforeview {
 			public void focusGained(FocusEvent e) {		//focus를 얻었을때
 			}
 		});	//end focus
-
-		tfId.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getJuminInfo();
-			}
-		});	//end actionlistener
-
+		
 	}
-
 	/*
-	 * add 버튼이 눌렸을 때 텍스트필드에 입력한 사용자의 값들을 personVO에 저장
+	 * 각각의 텍스트 필드의 값을 지우기, 텍스트 에어리어도 지우기
 	 */
+	
+	
+//public void clearTextField() {
+//	ta.setText(null);
+//	tfAge.setText(null);
+//	tfGender.setText(null);
+//	tfHome.setText(null);
+//	tfId.setText(null);
+//	tfName.setText(null);
+//	tfTel.setText(null);
+//	//나머지 텍스트필드도 지우기
+//}//end of cleartextfield(){}
+	
 
 
-	public void inputData() {
-		//1) 각각의 텍스트필드의 입력값을 얻어오기
-		//2) 1번의 값들을 personvo에 멤버변수에 저장(setter/constructor)
-		PersonVO vo = new PersonVO();
-		vo.setName(tfName.getText());
-		vo.setGender(tfGender.getText());
-		vo.setHome(tfHome.getText());
-		vo.setId(tfId.getText());
-		vo.setTel(tfTel.getText());
-		vo.setAge(Integer.parseInt(tfAge.getText()));
-
-		list.add(vo);
-
-	}//end inputData()
-
-	/*
-	 * 함수명 	: selectByTel
-	 * 인자 		: 없음
-	 * 리턴값 	: void
-	 * 역할 		: 전화번호를 입력하고 Search버튼을 누르면 저장되어 있는 list에서 일치하는지 확인 후 일치하면 나머지 정보들을 뽑아옴
-	 */
-	void selectByTel() {
-		//전화번호값을 입력
-		String tel = tfTel.getText();
-		//입력받은 전화번호가 공백이라면 메시지 창을 띄우기
-		if(tel.equals("")) {
-			JOptionPane.showMessageDialog(null, "전화번호를 입력하세요");
-			return;	//전화번호를 입력하지 않고 실행하면 안됨
-		}//if end
-		//해당 전화번호가 있으면 그 내용을 각각의 텍스트필드에 출력
-		for(PersonVO vo : list) {
-			if(tel.equals(vo.getTel())) {
-				tfName.setText(vo.getName());
-				tfGender.setText(vo.getGender());
-				tfId.setText(vo.getId());
-				tfHome.setText(vo.getHome());
-				tfAge.setText(String.valueOf(vo.getAge()));
-				return;
-			}else {
-				JOptionPane.showMessageDialog(null, "일치하는 전화번호가 없습니다.");
-
-			}//if end
-
-
-		}//for end
-	}//end selectByTel()
-
-	void deleteByTel() {
-		//입력한 전화번호값을얻어오기
-		String tel = tfTel.getText();
-		// 입력받은 전화번호가 공백이라면 "전화번호를 입력하세요" 라는 메세지창을 출력
-
-		if(tel.equals("")) {
-			JOptionPane.showMessageDialog(null, "전화번호를 입력하세요");
-			return;
-		}//if end
-		for(PersonVO vo : list) {
-			if(tel.equals(vo.getTel())) {
-				list.remove(vo);
-				JOptionPane.showMessageDialog(null, "삭제 성공");
-				clearTextField();
-				break;
-			}else {
-				JOptionPane.showMessageDialog(null, "일치하는 전화번호가 없습니다.");
-			}//if end
-
-			// 리스트에 저장된 personVO의전화번호와 비교하여 해당 전화번호가 있으면 그 해당하는 personVO를 리스트에서 삭제
-
-			// (참고) 삭제하고 나서 break로 반복문 끝내기
-		}//for end
-	}//end deleteByTel()
-
-		/*
-		 * lists에 저장된 정보를 모두 텍스트에어리어에 출력
-		 */
-		void selectAll() {
-			ta.setText("=======전체목록======\n");
-			for(PersonVO vo : list) {
-				ta.append(vo.toString());
-			}//end enhanced for
-		}//end of selectAll()
-
-
-		/*
-		 * clearTextField()
-		 * 각각의 텍스트 필드의 값을 지우기, 텍스트 에어리어도 지우기
-		 */
-		public void clearTextField() {
-			ta.setText(null);
-			tfAge.setText(null);
-			tfGender.setText(null);
-			tfHome.setText(null);
-			tfId.setText(null);
-			tfName.setText(null);
-			tfTel.setText(null);
-
-		}//end of cleartextfield(){}
-
-
-
-
-		public void getJuminInfo() {
-
+void getJuminInfo() {
+	tfId.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
 			String jumin = tfId.getText(); // jumin변수에 tfid텍스트 추출
 			if (jumin.length() < 14) { // 14자리 미만까지 입력
 				JOptionPane.showMessageDialog(null, ": - 을 포함한 14자를 맞춰주세요"); // 부족하거나 넘을시
@@ -343,6 +221,8 @@ public class Inforeview {
 			tfAge.setText(agege); // tfAge텍스트필드에 agege 입력
 
 		}
+	});
+}
 
 
 
@@ -353,8 +233,8 @@ public class Inforeview {
 			Inforeview info = new Inforeview();
 			info.addLayout(); // addLayout 메소드 호출
 			info.eventProc();
-			//			info.getJuminInfo();
-			//			info.clearTextField();
+			info.getJuminInfo();
+//			info.clearTextField();
 		}
 
 	}
